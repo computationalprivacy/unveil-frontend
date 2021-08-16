@@ -9,6 +9,7 @@ import Keyboard from 'react-simple-keyboard';
 import 'react-simple-keyboard/build/css/index.css';
 import { createAxiosInstance } from './controllerComponents/utils';
 import PropTypes from 'prop-types';
+import ControllerTable from './ControllerTable';
 
 const urljoin = require('url-join');
 
@@ -35,6 +36,7 @@ class ControllerOperator extends Component {
         this.axiosInstance.get(url).then(
             res => {
                 const session_id = res.data.id;
+                console.log(session_id);
                 if (this.state.session_id !== session_id) {
                     this.setState({ session_id: session_id });
                 }
@@ -69,7 +71,6 @@ class ControllerOperator extends Component {
         const url = urljoin(config.url, 'session/stop/');
         this.axiosInstance.post(url);
     }
-
     render() {
         const disabled = this.state.session_id !==
             config.disabledSessionIndicator;
@@ -124,6 +125,9 @@ class ControllerOperator extends Component {
                 </div>
                 <div className="row top-bottom-buffer">
                     <StatusController token={ this.state.token }/>
+                </div>
+                <div className="row top-bottom-buffer">
+                    <ControllerTable token={ this.state.token } session_id={ this.state.session_id }/>
                 </div>
             </div>
         );

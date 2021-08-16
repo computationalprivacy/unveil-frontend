@@ -10,7 +10,8 @@ class Table extends React.Component {
             // if info is an Array object, and its length exceeds maxRows
             // slice to only include the beginning
             InfoRows: this.props.info,
-            prevProps: this.props
+            prevProps: this.props,
+            highlightRows: this.props.highlightRows
         };
     }
 
@@ -25,11 +26,12 @@ class Table extends React.Component {
         maxRows: PropTypes.number,
         tableStyle: PropTypes.object,
         widthDistribution: PropTypes.array,
-        numCols: PropTypes.number
+        numCols: PropTypes.number,
+        highlightRows: PropTypes.array
     };
 
     static defaultProps = {
-        rotating: false,
+        rotating: true,
         maxRows: 0,
         tableStyle: {
             border: '0.1vw dashed #41FF00',
@@ -40,15 +42,20 @@ class Table extends React.Component {
             tableLayout: 'fixed'
         },
         widthDistribution: null,
-        numCols: null
+        numCols: null,
+        highlightRows: []
     };
 
     // Rolling list: removes the first row, add it to the end of the list
     updateRows = () => {
         if (this.state.InfoRows.length > 0) {
+            let highlightLen = this.state.InfoRows.length
             this.setState({
                 InfoRows: [ ...this.state.InfoRows.slice(1),
-                    this.state.InfoRows[ 0 ] ]
+                    this.state.InfoRows[ 0 ] ],
+                highlightRows: this.state.highlightRows.map(function (x) {
+                    return (highlightLen + x - 1)
+                        % highlightLen})
             });
         }
     };
@@ -65,6 +72,7 @@ class Table extends React.Component {
         } else {
             return {
                 InfoRows: props.info,
+                highlightRows: props.highlightRows,
                 prevProps: props
             };
         }
@@ -91,9 +99,18 @@ class Table extends React.Component {
             color: 'red',
             whiteSpace: 'nowrap'
         };
+        const highlightStyle = {
+            color: 'red'
+        }
         let widthDistribution = {
             width: '2.5vw'
         };
+        let highlightRows = []
+        if (this.state.highlightRows) {
+            for (let i = 0; i < this.state.highlightRows.length; i++){
+                highlightRows.push( this.state.highlightRows[i] );
+            }
+        }
         if (this.props.widthDistribution){
             widthDistribution = [];
             for (let i = 0; i < this.props.widthDistribution.length; i++){
@@ -156,12 +173,15 @@ class Table extends React.Component {
                                 (data.map(function(row, index) {
                                         // executed if data is a list of
                                         // any-length element lists
+                                        let highlight = false;
+                                        if (highlightRows) {
+                                            highlight = highlightRows.includes(index);
+                                        }
                                         return <tr key={ `row${ index }` }>{
                                             row.map(function(item, itemIndex) {
                                                 return <td
                                                     key={ `cell${ itemIndex }` }
-                                                    style={ widthDistribution[
-                                                        itemIndex ] }>{item}
+                                                    style={ {...widthDistribution[itemIndex ], ...(highlight) ? highlightStyle : {} } } >{item}
                                                 </td>;
                                             })
                                         }

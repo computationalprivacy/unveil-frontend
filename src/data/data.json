@@ -3046,19 +3046,22 @@
         "11:49:57",
         "http://connectivitycheck.gstatic.com/generate_204",
         "HTTP",
-        "281 bytes"
+        "281 bytes",
+        true
       ],
       [
         "11:49:57",
         "connectivitycheck.gstatic.com",
         "HTTPS",
-        "1.09 KB"
+        "1.09 KB",
+        false
       ],
       [
         "11:49:57",
         "mtalk.google.com",
         "5228",
-        "3.12 KB"
+        "3.12 KB",
+        true
       ]
     ],
     "rating": 27.5

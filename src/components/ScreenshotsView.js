@@ -37,7 +37,7 @@ class ScreenshotsViewHelper extends React.Component {
         super(props);
         this.props = props;
         this.state = { photos: props.data };
-        this.numPhotosShown = 4;
+        this.numPhotosShown = 8;
     }
 
     static propTypes = {

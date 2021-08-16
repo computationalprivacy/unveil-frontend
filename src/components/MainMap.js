@@ -59,6 +59,7 @@ class MainMap extends React.Component {
     };
 
     static meanLatLng = (data, zoom) => { // used as a position to zoom in
+        console.log(data);
         const markers = data.markers;
         let markersUK = markers.filter(
             marker => marker.country === 'United Kingdom');

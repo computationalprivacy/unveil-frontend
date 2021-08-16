@@ -1,11 +1,13 @@
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 # Terminal View - react custom components
+
 [react](https://reactjs.org/)
 
 # Map - react-leaflet & OSM based
 
 Requirements for the map:
+
 1. Free = open source
 2. Popular = has many tutorials and examples, has been around for long
 3. Can create customizable markers, can use JSON file info to create them, dynamic
